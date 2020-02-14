@@ -1,10 +1,11 @@
 package com.tms.bean;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class User implements Serializable {
     private long id;
-    private String name;
+    private String email;
     private String password;
 
     private String firstName;
@@ -26,12 +27,12 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -80,5 +81,19 @@ public class User implements Serializable {
 
     public void setIsAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email) &&
+                Objects.equals(password, user.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, password);
     }
 }

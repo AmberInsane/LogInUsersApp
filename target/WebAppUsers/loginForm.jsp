@@ -9,8 +9,8 @@
 </head>
 <body>
 <form name="login" action="login" method="post">
-    Имя пользователя:<br>
-    <input type="text" name="name">
+    E-mail:<br>
+    <input type="text" name="email">
     <br>
     Пароль:<br>
     <input type="password" name="password">

@@ -16,16 +16,14 @@ public class UserAction {
 
     public static void logIn(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {
        req.getSession().setAttribute("user", user);
+        req.setAttribute("user", user);
 
         List<User> userList;
         if (user.getIsAdmin()) {
             userList = userDao.getAll();
-        } else {
-            userList = Collections.singletonList(user);
+            req.setAttribute("userList", userList);
+            req.getSession().setAttribute("userList", userList);
         }
-
-        req.setAttribute("userList", userList);
-        req.getSession().setAttribute("userList", userList);
 
         servletContext.getRequestDispatcher("/userInfo.jsp").forward(req, resp);
     }
@@ -41,6 +39,8 @@ public class UserAction {
        // req.getSession().setAttribute("user", null);
        // resp.sendRedirect("loginForm.jsp");
         System.out.println("edit");
+        System.out.println(req.getAttribute("id"));
+        resp.sendRedirect("loginForm.jsp");
     }
 
     public static void deleteUser(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp, User user) throws ServletException, IOException {

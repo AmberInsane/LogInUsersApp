@@ -8,9 +8,21 @@
     <title>Регистрация</title>
 </head>
 <body>
+<%@page import="com.tms.bean.User,com.tms.model.UserDao"%>
+
+<%
+    String id = request.getParameter("id");
+    String action = request.getParameter("action");
+    User u = null;
+    if (!action.equals("")) {
+        u = UserDao.getRecordById(Long.parseLong(id)).get();
+    }
+%>
+
 <form name="registration" action="registration" method="post" onsubmit="return validation()">
-    Имя пользователя:<br>
-    <input type="text" name="name">
+    e-mail:<br>
+    <input type="text" name="email">
+    1111
     <br>
     Пароль:<br>
     <input type="password" name="password">
@@ -40,14 +52,15 @@
 <script>
     function validation() {
         var form = document.forms["registration"];
-        var value = form["name"].value;
+        var value = form["email"].value;
         if (value == null || value == "") {
-            alert("Введите имя пользователя");
+            alert("Введите e-mail пользователя");
             return false;
         }
-        var regex = new RegExp("^[a-zA-Z0-9_]+$");
-        if (!regex.test(value)) {
-            alert("Имя пользователя может состоять только из английских букв, цифр и знака _");
+
+        var pattern =  new RegExp(/^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i);
+        if (!pattern.test(value)) {
+            alert("Неверный формат электронной почты");
             return false;
         }
 

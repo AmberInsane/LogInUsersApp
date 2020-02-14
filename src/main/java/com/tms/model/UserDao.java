@@ -4,11 +4,12 @@ import com.tms.bean.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class UserDao implements Dao<User> {
 
-    private List<User> users = UsersHolder.getList();
+    private static List<User> users = UsersHolder.getList();
 
     public UserDao() {
     }
@@ -16,8 +17,14 @@ public class UserDao implements Dao<User> {
     @Override
     public Optional<User> get(String name, String password) {
         return users.stream()
-                .filter(user -> user.getName().equals(name))
+                .filter(user -> user.getEmail().equals(name))
                 .filter(user -> user.getPassword().equals(password))
+                .findFirst();
+    }
+
+    public Optional<User> getRecordById(long id) {
+        return users.stream()
+                .filter(user -> user.getId() == id)
                 .findFirst();
     }
 
@@ -27,8 +34,8 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public void save(User user) {
-        users.add(user);
+    public boolean save(User user) {
+        return users.add(user);
     }
 
     @Override
