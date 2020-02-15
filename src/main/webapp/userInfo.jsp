@@ -8,9 +8,9 @@
 <body>
 <form name="userInfo" method="post" action="userAction">
     <h3>Приветствую Вас</h3>
-    ${user.firstName} ${user.lastName}<br>
+    ${user.email}
+    ${user.userInfo.firstName} ${user.userInfo.lastName}<br>
 
-    <c:if test="${user.isAdmin}">
         <h4>Пользователи:</h4>
         <table border="1">
             <tr>
@@ -27,18 +27,18 @@
                 <tr>
                     <td>${сounter.count}</td>
                     <td><c:out value="${tempUser.email}"/></td>
-                    <td><c:out value="${tempUser.firstName}"/></td>
-                    <td><c:out value="${tempUser.lastName}"/></td>
-                    <td><c:out value="${tempUser.sex}"/></td>
-                    <td><c:out value="${tempUser.address}"/></td>
-                    <td><a href="update.jsp?id=<c:out value="${tempUser.getId()}"/>">Изменить</a></td>
+                    <td><c:out value="${tempUser.userInfo.firstName}"/></td>
+                    <td><c:out value="${tempUser.userInfo.lastName}"/></td>
+                    <td><c:out value="${tempUser.userInfo.sex}"/></td>
+                    <td><c:out value="${tempUser.userInfo.address}"/></td>
+                    <td><a href="registrationForm.jsp?id=${tempUser.getId()}&action=update/>">Изменить</a></td>
                     <td><a href="registrationForm.jsp?id=${tempUser.getId()}&action=delete">Удалить</a></td>
                 </tr>
             </c:forEach>
         </table>
-    </c:if>
 
-    <input type="submit" name="logOut" value="Выход">
+
+    <input type="submit" name="action" value="logOut">
 </form>
 </body>
 </html>

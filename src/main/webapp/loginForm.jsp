@@ -8,7 +8,7 @@
     <title>Добро пожаловать!</title>
 </head>
 <body>
-<form name="login" action="login" method="post">
+<form name="login" action="userAction" method="post">
     E-mail:<br>
     <input type="text" name="email">
     <br>
@@ -16,7 +16,7 @@
     <input type="password" name="password">
     <br>
     <a href="registrationForm.jsp">Регистрация</a>
-    <input type="submit" name="logIn" value="Вход">
+    <input type="submit" name="action" value="logIn">
 </form>
 <c:if test="${error != null}">
     <font color="red">${error}</font><br>

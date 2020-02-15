@@ -8,44 +8,33 @@
     <title>Регистрация</title>
 </head>
 <body>
-<%@page import="com.tms.bean.User,com.tms.model.UserDao"%>
 
-<%
-    String id = request.getParameter("id");
-    String action = request.getParameter("action");
-    User u = null;
-    if (!action.equals("")) {
-        u = UserDao.getRecordById(Long.parseLong(id)).get();
-    }
-%>
-
-<form name="registration" action="registration" method="post" onsubmit="return validation()">
+<form name="registration" action="userAction" method="post" onsubmit="return validation()">
     e-mail:<br>
-    <input type="text" name="email">
-    1111
+    <input type="text" name="email" value="ololo@mail.ru">
     <br>
     Пароль:<br>
-    <input type="password" name="password">
+    <input type="password" name="password" value="1111">
     <br>
     <br>
 
     <br> Имя:<br>
-    <input type="text" name="firstName">
+    <input type="text" name="firstName" value="Mary">
     <br>
     Фамилия:<br>
-    <input type="text" name="lastName">
+    <input type="text" name="lastName" value="Insane">
     <br>
     Пол:<br>
-    <input type="radio" name="sex" value="мужской"> мужской
+    <input type="radio" name="sex" value="мужской" checked="1"> мужской
     <input type="radio" name="sex" value="женский"> женский
     <input type="radio" name="sex" value="нет"> не хочу говорить
     <br>
     Адрес:<br>
-    <input type="text" name="address">
+    <input type="text" name="address" value="1111">
     <br>
-    <input type="checkbox" name="isAdmin"/> Администратор
+    <input type="checkbox" name="isSuper" checked="1"/> Супер-пользователь
     <br>
-    <input type="submit" value="OK">
+    <input type="submit" name="action" value="save">
 </form>
 </body>
 </html>

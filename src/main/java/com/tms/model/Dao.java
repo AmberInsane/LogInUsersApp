@@ -9,5 +9,6 @@ public interface Dao<T> {
     List<T> getAll();
 
     boolean save(T t);
-    void delete(T t);
+    boolean update(T t);
+    boolean delete(T t);
 }

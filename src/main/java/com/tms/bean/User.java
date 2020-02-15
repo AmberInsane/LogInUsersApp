@@ -1,30 +1,38 @@
 package com.tms.bean;
 
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
+@Entity
 public class User implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(name = "password")
     private String password;
 
-    private String firstName;
-    private String lastName;
-    private String sex;
-    private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "info_id")
+    private UserInfo userInfo;
 
-    private boolean isAdmin;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private List<Role> roles;
 
     public User() {
-        id = System.currentTimeMillis();
     }
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -43,44 +51,20 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
-    public String getLastName() {
-        return lastName;
+    public UserInfo getUserInfo() {
+        return userInfo;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public boolean getIsAdmin() {
-        return isAdmin;
-    }
-
-    public void setIsAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     @Override

@@ -1,13 +1,20 @@
 package com.tms.model;
 
 import com.tms.bean.User;
+import com.tms.util.*;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public class UserDao implements Dao<User> {
+    private Session session = null;
+    private Transaction transaction = null;
+
+    final static Logger logger = Logger.getLogger(UserDao.class);
 
     private static List<User> users = UsersHolder.getList();
 
@@ -35,12 +42,37 @@ public class UserDao implements Dao<User> {
 
     @Override
     public boolean save(User user) {
+        logger.debug("bef session");
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            session.save(user);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        HibernateUtil.shutdown();
+
         return users.add(user);
     }
 
     @Override
-    public void delete(User user) {
-        users.remove(user);
+    public boolean update(User user) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(User user) {
+        return users.remove(user);
     }
 }
 
