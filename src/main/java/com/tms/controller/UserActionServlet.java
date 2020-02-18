@@ -54,6 +54,12 @@ public class UserActionServlet extends HttpServlet {
             case ("save"):
                 UserAction.saveUser(getServletContext(), req, resp);
                 break;
+            case ("edit"):
+                UserAction.editUser(getServletContext(), req, resp);
+                break;
+            case ("update"):
+                UserAction.updateUser(getServletContext(), req, resp);
+                break;
             case ("delete"):
                 UserAction.deleteUser(getServletContext(), req, resp);
                 break;

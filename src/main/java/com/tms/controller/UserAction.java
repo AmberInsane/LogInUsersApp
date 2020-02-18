@@ -10,9 +10,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.parser.Entity;
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserAction {
     private static UserDao userDao = new UserDao();
@@ -36,7 +36,10 @@ public class UserAction {
         User user = (User) req.getSession().getAttribute("user");
         req.setAttribute("user", user);
 
-        if (RoleUtil.isUserPlaysRole(user, "show")) {
+        Map<String, Boolean> allUserRoles = RoleUtil.getAllUserRoles(user);
+        allUserRoles.forEach((key, value) -> req.setAttribute(key, value));
+
+        if (allUserRoles.get("show")) {
             userList = userDao.getAll();
             req.setAttribute("userList", userList);
             req.getSession().setAttribute("userList", userList);
@@ -49,20 +52,34 @@ public class UserAction {
         }
     }
 
-    public static void logOut(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getSession().setAttribute("userList", null);
+    public static void logOut(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) {
         req.getSession().setAttribute("user", null);
-        //resp.sendRedirect("loginForm.jsp");
-        servletContext.getRequestDispatcher("/loginForm.jsp").forward(req, resp);
+        try {
+            servletContext.getRequestDispatcher("/loginForm.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            logger.error("error with open log in page " + e.getMessage());
+        }
     }
 
-    public static void editUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // req.getSession().setAttribute("userList", null);
-        // req.getSession().setAttribute("user", null);
-        // resp.sendRedirect("loginForm.jsp");
-        System.out.println("edit");
-        System.out.println(req.getAttribute("id"));
-        resp.sendRedirect("loginForm.jsp");
+    public static void editUser(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) {
+        long userId = Long.valueOf(req.getParameterValues("id")[0]);
+        User user = userDao.getRecordById(userId).get();
+
+        req.setAttribute("user", user);
+
+        Map<String, Boolean> getAllUserRoles = RoleUtil.getAllUserRoles(user);
+        getAllUserRoles.forEach((key, value) -> req.setAttribute(key, value));
+
+        try {
+            servletContext.getRequestDispatcher("/edit.jsp").forward(req, resp);
+        } catch (ServletException | IOException e) {
+            logger.error("error with open update page " + e.getMessage());
+        }
+    }
+
+    public static void updateUser(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) {
+        UserUtil.updateUser(req);
+        showInfoPage(servletContext, req, resp);
     }
 
     public static void deleteUser(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) {
@@ -82,11 +99,7 @@ public class UserAction {
     public static void emulateError(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp, String message) {
         logger.error(message);
         req.setAttribute("error", message);
-        try {
-            logOut(servletContext, req, resp);
-        } catch (IOException | ServletException e) {
-            logger.error("error with returning error " + e.getMessage());
-        }
+        logOut(servletContext, req, resp);
     }
 
     public static void saveUser(ServletContext servletContext, HttpServletRequest req, HttpServletResponse resp) {

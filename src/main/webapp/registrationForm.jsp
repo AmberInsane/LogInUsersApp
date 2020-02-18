@@ -11,18 +11,18 @@
 
 <form name="registration" action="userAction" method="post" onsubmit="return validation()">
     e-mail:<br>
-    <input type="text" name="email" value="ololo@mail.ru">
+    <input type="text" name="email">
     <br>
     Пароль:<br>
-    <input type="password" name="password" value="1111">
+    <input type="password" name="password">
     <br>
     <br>
 
     <br> Имя:<br>
-    <input type="text" name="firstName" value="Mary">
+    <input type="text" name="firstName">
     <br>
     Фамилия:<br>
-    <input type="text" name="lastName" value="Insane">
+    <input type="text" name="lastName">
     <br>
     Пол:<br>
     <input type="radio" name="sex" value="мужской" checked="1"> мужской
@@ -32,7 +32,7 @@
     Адрес:<br>
     <input type="text" name="address" value="1111">
     <br>
-    <input type="checkbox" name="isSuper" checked="1"/> Супер-пользователь
+    <input type="checkbox" name="isSuper"/> Супер-пользователь
     <br>
     <input type="submit" name="action" value="save">
 </form>

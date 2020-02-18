@@ -8,9 +8,9 @@
 <body>
 <form name="userInfo" method="post" action="userAction">
     <h3>Приветствую Вас</h3>
-    ${user.email}
     ${user.userInfo.firstName} ${user.userInfo.lastName}<br>
 
+    <c:if test="${show}">
         <h4>Пользователи:</h4>
         <table border="1">
             <tr>
@@ -20,23 +20,30 @@
                 <td>Фамилия</td>
                 <td>Пол</td>
                 <td>Адрес</td>
-                <td>Изменить</td>
-                <td>Удалить</td>
+                <c:if test="${edit}">
+                    <td>Изменить</td>
+                </c:if>
+                <c:if test="${delete}">
+                    <td>Удалить</td>
+                </c:if>
             </tr>
             <c:forEach var="tempUser" items="${sessionScope[name]}" varStatus="сounter">
-                <tr>
-                    <td>${сounter.count}</td>
-                    <td><c:out value="${tempUser.email}"/></td>
-                    <td><c:out value="${tempUser.userInfo.firstName}"/></td>
-                    <td><c:out value="${tempUser.userInfo.lastName}"/></td>
-                    <td><c:out value="${tempUser.userInfo.sex}"/></td>
-                    <td><c:out value="${tempUser.userInfo.address}"/></td>
-                    <td><a href="registrationForm.jsp?id=${tempUser.getId()}/>">Изменить</a></td>
-                    <td><a href="/delete.jsp?id=${tempUser.getId()}">Удалить</a></td>
+                <td>${сounter.count}</td>
+                <td><c:out value="${tempUser.email}"/></td>
+                <td><c:out value="${tempUser.userInfo.firstName}"/></td>
+                <td><c:out value="${tempUser.userInfo.lastName}"/></td>
+                <td><c:out value="${tempUser.userInfo.sex}"/></td>
+                <td><c:out value="${tempUser.userInfo.address}"/></td>
+                <c:if test="${edit}">
+                    <td><a href="userAction?action=edit&id=${tempUser.getId()}">Изменить</a></td>
+                </c:if>
+                <c:if test="${delete}">
+                    <td><a href="<c:url value="/delete.jsp?id=${tempUser.getId()}"/>">Удалить</a></td>
+                </c:if>
                 </tr>
             </c:forEach>
         </table>
-
+    </c:if>
 
     <input type="submit" name="action" value="logOut">
 </form>

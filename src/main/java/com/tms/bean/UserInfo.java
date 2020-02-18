@@ -1,10 +1,11 @@
 package com.tms.bean;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user_info")
-public class UserInfo {
+public class UserInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

@@ -158,7 +158,25 @@ public class UserDao implements Dao<User> {
 
     @Override
     public boolean update(User user) {
-        return false;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+
+            session.update(user);
+
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            logger.error(e.getMessage());
+            return false;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return true;
     }
 
     public boolean delete(Long id) {
