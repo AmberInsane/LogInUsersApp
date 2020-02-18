@@ -30,6 +30,15 @@ public class UserUtil {
         return newUser;
     }
 
+    public static Long getSessionUserId(HttpServletRequest req) {
+        return (Long) req.getSession().getAttribute("userId");
+    }
+
+    public static Optional<User> getSessionUser(HttpServletRequest req) {
+        Long id = getSessionUserId(req);
+        return userDao.getRecordById(id);
+    }
+
     public static User createUserFromParams(HttpServletRequest req) {
         String paramName = "";
         String paramValue = "";

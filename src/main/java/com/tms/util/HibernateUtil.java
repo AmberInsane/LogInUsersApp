@@ -31,7 +31,6 @@ public class HibernateUtil {
                 settings.put("hibernate.connection.password", "-Cheese0856");
                 settings.put("hibernate.show_sql", "true"); //показывать sql
                 settings.put("hibernate.hbm2ddl.auto", "update"); //update - создавать новые таблицы
-                //<property name="hibernate.enable_lazy_load_no_trans" value="true"
 
                 registryBuilder.applySettings(settings);
 

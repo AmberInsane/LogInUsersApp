@@ -10,40 +10,37 @@
     <h3>Приветствую Вас</h3>
     ${user.userInfo.firstName} ${user.userInfo.lastName}<br>
 
-    <c:if test="${show}">
-        <h4>Пользователи:</h4>
-        <table border="1">
-            <tr>
-                <td>№</td>
-                <td>e-mail</td>
-                <td>Имя</td>
-                <td>Фамилия</td>
-                <td>Пол</td>
-                <td>Адрес</td>
-                <c:if test="${edit}">
-                    <td>Изменить</td>
-                </c:if>
-                <c:if test="${delete}">
-                    <td>Удалить</td>
-                </c:if>
+    <table border="1">
+        <tr>
+            <td>№</td>
+            <td>e-mail</td>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>Пол</td>
+            <td>Адрес</td>
+            <c:if test="${edit}">
+                <td>Изменить</td>
+            </c:if>
+            <c:if test="${delete}">
+                <td>Удалить</td>
+            </c:if>
+        </tr>
+        <c:forEach var="tempUser" items="${sessionScope[name]}" varStatus="сounter">
+            <td>${сounter.count}</td>
+            <td><c:out value="${tempUser.email}"/></td>
+            <td><c:out value="${tempUser.userInfo.firstName}"/></td>
+            <td><c:out value="${tempUser.userInfo.lastName}"/></td>
+            <td><c:out value="${tempUser.userInfo.sex}"/></td>
+            <td><c:out value="${tempUser.userInfo.address}"/></td>
+            <c:if test="${edit}">
+                <td><a href="userAction?action=edit&id=${tempUser.getId()}">Изменить</a></td>
+            </c:if>
+            <c:if test="${delete}">
+                <td><a href="<c:url value="/delete.jsp?id=${tempUser.getId()}"/>">Удалить</a></td>
+            </c:if>
             </tr>
-            <c:forEach var="tempUser" items="${sessionScope[name]}" varStatus="сounter">
-                <td>${сounter.count}</td>
-                <td><c:out value="${tempUser.email}"/></td>
-                <td><c:out value="${tempUser.userInfo.firstName}"/></td>
-                <td><c:out value="${tempUser.userInfo.lastName}"/></td>
-                <td><c:out value="${tempUser.userInfo.sex}"/></td>
-                <td><c:out value="${tempUser.userInfo.address}"/></td>
-                <c:if test="${edit}">
-                    <td><a href="userAction?action=edit&id=${tempUser.getId()}">Изменить</a></td>
-                </c:if>
-                <c:if test="${delete}">
-                    <td><a href="<c:url value="/delete.jsp?id=${tempUser.getId()}"/>">Удалить</a></td>
-                </c:if>
-                </tr>
-            </c:forEach>
-        </table>
-    </c:if>
+        </c:forEach>
+    </table>
 
     <input type="submit" name="action" value="logOut">
 </form>

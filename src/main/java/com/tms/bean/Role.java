@@ -1,11 +1,17 @@
 package com.tms.bean;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Entity
+
 public class Role implements Serializable {
+    private static final long serialVersionUID = 42L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")

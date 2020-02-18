@@ -1,5 +1,6 @@
 package com.tms.model;
 
+import com.tms.bean.Role;
 import com.tms.bean.User;
 import com.tms.util.*;
 import org.apache.log4j.Logger;
@@ -17,8 +18,6 @@ public class UserDao implements Dao<User> {
     private Transaction transaction = null;
 
     final static Logger logger = Logger.getLogger(UserDao.class);
-
-    //private static List<User> users = UsersHolder.getList();
 
     public UserDao() {
     }
@@ -46,14 +45,8 @@ public class UserDao implements Dao<User> {
                 session.close();
             }
         }
-        //HibernateUtil.shutdown();
 
         return Optional.ofNullable(user);
-
-        // return users.stream()
-        //         .filter(user -> user.getEmail().equals(name))
-        //         .filter(user -> user.getPassword().equals(password))
-        //         .findFirst();
     }
 
     public Optional<User> getRecordById(long id) {
@@ -75,12 +68,8 @@ public class UserDao implements Dao<User> {
                 session.close();
             }
         }
-        //HibernateUtil.shutdown();
 
         return Optional.ofNullable(user);
-        //return users.stream()
-        //        .filter(user -> user.getId() == id)
-        //        .findFirst();
     }
 
     public boolean hasUserEmail(String email) {
@@ -99,12 +88,7 @@ public class UserDao implements Dao<User> {
                 session.close();
             }
         }
-        //HibernateUtil.shutdown();
-
         return userCount > 0;
-        //return users.stream()
-        //.filter(user -> user.getId() == id)
-        //       .findFirst();
     }
 
     @Override
@@ -125,8 +109,6 @@ public class UserDao implements Dao<User> {
                 session.close();
             }
         }
-        //HibernateUtil.shutdown();
-
         return allUsers;
     }
 
@@ -151,8 +133,6 @@ public class UserDao implements Dao<User> {
                 session.close();
             }
         }
-        //HibernateUtil.shutdown();
-
         return true;
     }
 
@@ -193,6 +173,8 @@ public class UserDao implements Dao<User> {
             session = HibernateUtil.getSessionFactory().openSession();
             transaction = session.beginTransaction();
 
+            user.setRoles(null);
+            session.update(user);
             session.delete(user);
 
             transaction.commit();
@@ -210,14 +192,3 @@ public class UserDao implements Dao<User> {
         return true;
     }
 }
-
-/*class UsersHolder {
-    private static List<User> list;
-
-    static List<User> getList() {
-        if (list == null) {
-            list = new ArrayList<>();
-        }
-        return list;
-    }
-}*/
