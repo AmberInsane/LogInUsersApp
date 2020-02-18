@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException;
 public class UserActionServlet extends HttpServlet {
     final static Logger logger = Logger.getLogger(UserActionServlet.class);
     private Dao userDao;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doAction(req, resp);
@@ -48,14 +49,16 @@ public class UserActionServlet extends HttpServlet {
                 break;
             case ("logOut"):
                 logger.info("log out");
-                UserAction.logOut(req, resp);
+                UserAction.logOut(getServletContext(), req, resp);
                 break;
             case ("save"):
-                User newUser = UserUtil.saveUser(req);
-                UserAction.logIn(getServletContext(), req, resp, newUser);
+                UserAction.saveUser(getServletContext(), req, resp);
                 break;
             case ("delete"):
-                UserAction.deleteUser(req, resp, user);
+                UserAction.deleteUser(getServletContext(), req, resp);
+                break;
+            case ("cancel"):
+                UserAction.showInfoPage(getServletContext(), req, resp);
                 break;
         }
     }
@@ -63,5 +66,10 @@ public class UserActionServlet extends HttpServlet {
     @Override
     public void init() {
         userDao = new UserDao();
+    }
+
+    @Override
+    public void destroy() {
+        HibernateUtil.shutdown();
     }
 }

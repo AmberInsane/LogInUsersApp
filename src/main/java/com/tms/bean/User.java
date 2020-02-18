@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Table(name = "user")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,7 @@ public class User implements Serializable {
     @JoinColumn(name = "info_id")
     private UserInfo userInfo;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})

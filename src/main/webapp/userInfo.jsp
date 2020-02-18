@@ -31,8 +31,8 @@
                     <td><c:out value="${tempUser.userInfo.lastName}"/></td>
                     <td><c:out value="${tempUser.userInfo.sex}"/></td>
                     <td><c:out value="${tempUser.userInfo.address}"/></td>
-                    <td><a href="registrationForm.jsp?id=${tempUser.getId()}&action=update/>">Изменить</a></td>
-                    <td><a href="registrationForm.jsp?id=${tempUser.getId()}&action=delete">Удалить</a></td>
+                    <td><a href="registrationForm.jsp?id=${tempUser.getId()}/>">Изменить</a></td>
+                    <td><a href="<c:url value="/delete.jsp?id=${tempUser.getId()}"/>">Удалить</a></td>
                 </tr>
             </c:forEach>
         </table>
